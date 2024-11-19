@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require('cors');
 require("dotenv").config();
+
 const app = express();
 
 const DB_USERNAME = process.env.DB_USERNAME;
@@ -9,11 +11,13 @@ const DB_NAME = process.env.DB_NAME;
 const env = process.env.NODE_ENV;
 
 // middleware
+app.use(cors()); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // routes
 app.use("/api/recipes", require("./routes/recipe.routes"));
+app.use('/uploads', express.static('uploads'));
 
 app.get("/", (req, res) => {
   res.send("Hello World! API is working");
